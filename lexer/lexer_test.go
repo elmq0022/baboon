@@ -14,28 +14,28 @@ func TestLexerNextToken(t *testing.T) {
 		want []token.Token
 	}{
 		{
-			name: "=",
+			name: "assignment",
 			code: `=`,
 			want: []token.Token{
 				{Type: token.ASSIGN, Literal: "="},
 			},
 		},
 		{
-			name: "*",
+			name: "asterisk",
 			code: `*`,
 			want: []token.Token{
 				{Type: token.ASTERISK, Literal: "*"},
 			},
 		},
 		{
-			name: "+",
+			name: "plus",
 			code: `+`,
 			want: []token.Token{
 				{Type: token.PLUS, Literal: "+"},
 			},
 		},
 		{
-			name: "-",
+			name: "minus",
 			code: `-`,
 			want: []token.Token{
 				{Type: token.MINUS, Literal: "-"},
@@ -46,6 +46,43 @@ func TestLexerNextToken(t *testing.T) {
 			code: `/`,
 			want: []token.Token{
 				{Type: token.SLASH, Literal: "/"},
+			},
+		},
+
+		// keywords
+		{
+			name: "false",
+			code: `false`,
+			want: []token.Token{
+				{Type: token.FALSE, Literal: "false"},
+			},
+		},
+		{
+			name: "function",
+			code: `fn`,
+			want: []token.Token{
+				{Type: token.FUNCTION, Literal: "fn"},
+			},
+		},
+		{
+			name: "let",
+			code: `let`,
+			want: []token.Token{
+				{Type: token.LET, Literal: "let"},
+			},
+		},
+		{
+			name: "return",
+			code: `return`,
+			want: []token.Token{
+				{Type: token.RETURN, Literal: "return"},
+			},
+		},
+		{
+			name: "true",
+			code: `true`,
+			want: []token.Token{
+				{Type: token.TRUE, Literal: "true"},
 			},
 		},
 	}

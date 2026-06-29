@@ -44,13 +44,17 @@ const (
 )
 
 var keywords = map[string]TokenType{
-	"fn": FUNCTION,
+	"fn":     FUNCTION,
+	"false":  FALSE,
+	"let":    LET,
+	"return": RETURN,
+	"true":   TRUE,
 }
 
 func LookupKeyword(s string) TokenType {
-	keyword, ok := keywords[s]
+	tokenType, ok := keywords[s]
 	if ok {
-		return keyword
+		return tokenType
 	}
 	return IDENT
 }

@@ -23,6 +23,8 @@ func NewLexer(input string) *Lexer {
 func (l *Lexer) NextToken() token.Token {
 	var tok token.Token
 
+	l.consumeWhitespace()
+
 	switch l.ch {
 	case '=':
 		tok = token.Token{Type: token.ASSIGN, Literal: string(l.ch)}
@@ -34,6 +36,24 @@ func (l *Lexer) NextToken() token.Token {
 		tok = token.Token{Type: token.MINUS, Literal: string(l.ch)}
 	case '/':
 		tok = token.Token{Type: token.SLASH, Literal: string(l.ch)}
+	case ',':
+		tok = token.Token{Type: token.COMMA, Literal: string(l.ch)}
+	case ';':
+		tok = token.Token{Type: token.SEMICOLON, Literal: string(l.ch)}
+
+	case '(':
+		tok = token.Token{Type: token.LPAREN, Literal: string(l.ch)}
+	case ')':
+		tok = token.Token{Type: token.RPAREN, Literal: string(l.ch)}
+	case '[':
+		tok = token.Token{Type: token.LBRACKET, Literal: string(l.ch)}
+	case ']':
+		tok = token.Token{Type: token.RBRACKET, Literal: string(l.ch)}
+	case '{':
+		tok = token.Token{Type: token.LBRACE, Literal: string(l.ch)}
+	case '}':
+		tok = token.Token{Type: token.RBRACE, Literal: string(l.ch)}
+
 	case 0:
 		tok = token.Token{Type: token.EOF, Literal: ""}
 	default:
@@ -46,8 +66,7 @@ func (l *Lexer) NextToken() token.Token {
 			tok.Type = token.INT
 			return tok
 		} else {
-			tok.Type = token.ILLEGAL
-			return token.Token{
+			tok = token.Token{
 				Type:    token.ILLEGAL,
 				Literal: string(l.ch),
 			}
@@ -90,4 +109,14 @@ func (l *Lexer) readInt() string {
 		l.readChar()
 	}
 	return l.input[position:l.position]
+}
+
+func (l *Lexer) isWhitespace(ch byte) bool {
+	return ch == ' ' || ch == '\t' || ch == '\n' || ch == '\r'
+}
+
+func (l *Lexer) consumeWhitespace() {
+	for l.isWhitespace(l.ch) {
+		l.readChar()
+	}
 }

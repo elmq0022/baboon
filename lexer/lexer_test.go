@@ -48,6 +48,51 @@ func TestLexerNextToken(t *testing.T) {
 				{Type: token.SLASH, Literal: "/"},
 			},
 		},
+		{
+			name: "comma",
+			code: `,`,
+			want: []token.Token{
+				{Type: token.COMMA, Literal: ","},
+			},
+		},
+		{
+			name: "semicolon",
+			code: `;`,
+			want: []token.Token{
+				{Type: token.SEMICOLON, Literal: ";"},
+			},
+		},
+
+		{
+			name: "parenthesis",
+			code: `)()(`,
+			want: []token.Token{
+				{Type: token.RPAREN, Literal: ")"},
+				{Type: token.LPAREN, Literal: "("},
+				{Type: token.RPAREN, Literal: ")"},
+				{Type: token.LPAREN, Literal: "("},
+			},
+		},
+		{
+			name: "braces",
+			code: `}{}{`,
+			want: []token.Token{
+				{Type: token.RBRACE, Literal: "}"},
+				{Type: token.LBRACE, Literal: "{"},
+				{Type: token.RBRACE, Literal: "}"},
+				{Type: token.LBRACE, Literal: "{"},
+			},
+		},
+		{
+			name: "brackets",
+			code: `][][`,
+			want: []token.Token{
+				{Type: token.RBRACKET, Literal: "]"},
+				{Type: token.LBRACKET, Literal: "["},
+				{Type: token.RBRACKET, Literal: "]"},
+				{Type: token.LBRACKET, Literal: "["},
+			},
+		},
 
 		// keywords
 		{
@@ -90,6 +135,24 @@ func TestLexerNextToken(t *testing.T) {
 			code: `5`,
 			want: []token.Token{
 				{Type: token.INT, Literal: "5"},
+			},
+		},
+		{
+			name: "simple add",
+			code: `5 + 5;`,
+			want: []token.Token{
+				{Type: token.INT, Literal: "5"},
+				{Type: token.PLUS, Literal: "+"},
+				{Type: token.INT, Literal: "5"},
+				{Type: token.SEMICOLON, Literal: ";"},
+			},
+		},
+		{
+			name: "illegal",
+			code: `@@`,
+			want: []token.Token{
+				{Type: token.ILLEGAL, Literal: "@"},
+				{Type: token.ILLEGAL, Literal: "@"},
 			},
 		},
 	}

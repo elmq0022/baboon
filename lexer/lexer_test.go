@@ -190,6 +190,45 @@ func TestLexerNextToken(t *testing.T) {
 				{Type: token.NOT, Literal: "!"},
 			},
 		},
+		{
+			name: "random code",
+			code: `let x = 10;
+			let y = 7;
+			let z = fn(x, y){
+				return x + y;
+			};`,
+			want: []token.Token{
+				{Type: token.LET, Literal: "let"},
+				{Type: token.IDENT, Literal: "x"},
+				{Type: token.ASSIGN, Literal: "="},
+				{Type: token.INT, Literal: "10"},
+				{Type: token.SEMICOLON, Literal: ";"},
+
+				{Type: token.LET, Literal: "let"},
+				{Type: token.IDENT, Literal: "y"},
+				{Type: token.ASSIGN, Literal: "="},
+				{Type: token.INT, Literal: "7"},
+				{Type: token.SEMICOLON, Literal: ";"},
+
+				{Type: token.LET, Literal: "let"},
+				{Type: token.IDENT, Literal: "z"},
+				{Type: token.ASSIGN, Literal: "="},
+				{Type: token.FUNCTION, Literal: "fn"},
+				{Type: token.LPAREN, Literal: "("},
+				{Type: token.IDENT, Literal: "x"},
+				{Type: token.COMMA, Literal: ","},
+				{Type: token.IDENT, Literal: "y"},
+				{Type: token.RPAREN, Literal: ")"},
+				{Type: token.LBRACE, Literal: "{"},
+				{Type: token.RETURN, Literal: "return"},
+				{Type: token.IDENT, Literal: "x"},
+				{Type: token.PLUS, Literal: "+"},
+				{Type: token.IDENT, Literal: "y"},
+				{Type: token.SEMICOLON, Literal: ";"},
+				{Type: token.RBRACE, Literal: "}"},
+				{Type: token.SEMICOLON, Literal: ";"},
+			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

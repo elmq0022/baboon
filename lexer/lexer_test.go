@@ -49,6 +49,20 @@ func TestLexerNextToken(t *testing.T) {
 			},
 		},
 		{
+			name: "less than",
+			code: `<`,
+			want: []token.Token{
+				{Type: token.LT, Literal: "<"},
+			},
+		},
+		{
+			name: "greater than",
+			code: `>`,
+			want: []token.Token{
+				{Type: token.GT, Literal: ">"},
+			},
+		},
+		{
 			name: "comma",
 			code: `,`,
 			want: []token.Token{

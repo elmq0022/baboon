@@ -36,6 +36,11 @@ func (l *Lexer) NextToken() token.Token {
 		tok = token.Token{Type: token.MINUS, Literal: string(l.ch)}
 	case '/':
 		tok = token.Token{Type: token.SLASH, Literal: string(l.ch)}
+
+	case '<':
+		tok = token.Token{Type: token.LT, Literal: string(l.ch)}
+	case '>':
+		tok = token.Token{Type: token.GT, Literal: string(l.ch)}
 	case ',':
 		tok = token.Token{Type: token.COMMA, Literal: string(l.ch)}
 	case ';':
@@ -59,7 +64,7 @@ func (l *Lexer) NextToken() token.Token {
 	default:
 		if isLetter(l.ch) {
 			tok.Literal = l.readIdentifier()
-			tok.Type = token.LookupKeyword(tok.Literal)
+			tok.Type = token.LookupIdent(tok.Literal)
 			return tok
 		} else if isDigit(l.ch) {
 			tok.Literal = l.readInt()
@@ -88,7 +93,7 @@ func (l *Lexer) readChar() {
 }
 
 func isLetter(ch byte) bool {
-	return 'a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z' || ch == '-'
+	return 'a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z' || ch == '_'
 }
 
 func isDigit(ch byte) bool {

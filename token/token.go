@@ -17,6 +17,8 @@ const (
 	PLUS     = "PLUS"
 	MINUS    = "MINUS"
 	SLASH    = "SLASH"
+	LT       = "LT"
+	GT       = "GT"
 
 	// grouping symbols
 	LPAREN   = "LPAREN"
@@ -51,7 +53,7 @@ var keywords = map[string]TokenType{
 	"true":   TRUE,
 }
 
-func LookupKeyword(s string) TokenType {
+func LookupIdent(s string) TokenType {
 	tokenType, ok := keywords[s]
 	if ok {
 		return tokenType

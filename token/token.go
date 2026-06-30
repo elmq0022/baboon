@@ -19,6 +19,11 @@ const (
 	SLASH    = "SLASH"
 	LT       = "LT"
 	GT       = "GT"
+	NOT      = "NOT"
+
+	// two char operators
+	EQUAL     = "EQUAL"
+	NOT_EQUAL = "NOT_EQUAL"
 
 	// grouping symbols
 	LPAREN   = "LPAREN"

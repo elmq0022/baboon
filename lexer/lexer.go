@@ -27,7 +27,12 @@ func (l *Lexer) NextToken() token.Token {
 
 	switch l.ch {
 	case '=':
-		tok = token.Token{Type: token.ASSIGN, Literal: string(l.ch)}
+		if l.peekChar() == '=' {
+			tok = token.Token{Type: token.EQUAL, Literal: "=="}
+			l.readChar()
+		} else {
+			tok = token.Token{Type: token.ASSIGN, Literal: string(l.ch)}
+		}
 	case '*':
 		tok = token.Token{Type: token.ASTERISK, Literal: string(l.ch)}
 	case '+':
@@ -36,9 +41,15 @@ func (l *Lexer) NextToken() token.Token {
 		tok = token.Token{Type: token.MINUS, Literal: string(l.ch)}
 	case '/':
 		tok = token.Token{Type: token.SLASH, Literal: string(l.ch)}
-
 	case '<':
 		tok = token.Token{Type: token.LT, Literal: string(l.ch)}
+	case '!':
+		if l.peekChar() == '=' {
+			tok = token.Token{Type: token.NOT_EQUAL, Literal: "!="}
+			l.readChar()
+		} else {
+			tok = token.Token{Type: token.NOT, Literal: string(l.ch)}
+		}
 	case '>':
 		tok = token.Token{Type: token.GT, Literal: string(l.ch)}
 	case ',':
@@ -61,6 +72,7 @@ func (l *Lexer) NextToken() token.Token {
 
 	case 0:
 		tok = token.Token{Type: token.EOF, Literal: ""}
+
 	default:
 		if isLetter(l.ch) {
 			tok.Literal = l.readIdentifier()
@@ -124,4 +136,11 @@ func (l *Lexer) consumeWhitespace() {
 	for l.isWhitespace(l.ch) {
 		l.readChar()
 	}
+}
+
+func (l *Lexer) peekChar() byte {
+	if l.readPosition >= len(l.input) {
+		return 0
+	}
+	return l.input[l.readPosition]
 }

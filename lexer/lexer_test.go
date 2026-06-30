@@ -169,6 +169,27 @@ func TestLexerNextToken(t *testing.T) {
 				{Type: token.ILLEGAL, Literal: "@"},
 			},
 		},
+		{
+			name: "equal",
+			code: `==`,
+			want: []token.Token{
+				{Type: token.EQUAL, Literal: "=="},
+			},
+		},
+		{
+			name: "not equal",
+			code: `!=`,
+			want: []token.Token{
+				{Type: token.NOT_EQUAL, Literal: "!="},
+			},
+		},
+		{
+			name: "not",
+			code: `!`,
+			want: []token.Token{
+				{Type: token.NOT, Literal: "!"},
+			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
